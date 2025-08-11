@@ -1,5 +1,5 @@
-import { createElement as h } from './lib/Euid.js'
-import { createRoot } from './lib/EuidDOM.js'
+const { createElement: h } = React
+const { createRoot } = ReactDOM
 
 const h1Element = h('h1', {}, h('code', {}, 'bunx'), ' 명령')
 
