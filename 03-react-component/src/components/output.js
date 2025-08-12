@@ -7,11 +7,9 @@ export default function Output(props) {
     classNames += 'is-animate';
   }
 
-  return React.createElement(
-    'output',
-    { className: classNames },
-    props.children
-  );
+  const className = `output ${props.isAnimate ? 'is-animate' : ''}.trim()`;
+
+  return React.createElement('output', { className }, props.children);
 }
 // 또는 export default outputFunction;
 

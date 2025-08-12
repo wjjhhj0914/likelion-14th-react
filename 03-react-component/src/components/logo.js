@@ -3,7 +3,8 @@
 // 1. Functional
 // 2. Class
 
-export function LogoFunction() {
+// 이름으로 내보내기
+export default function LogoFunction() {
   const logoElement = React.createElement(
     'svg',
     {
@@ -100,3 +101,14 @@ export class LogoClass extends React.Component {
     return logoElement;
   }
 }
+
+// const module = {
+//   LogoClass,
+//   LogoFunction
+// }
+
+// 기본 내보내기
+// export default {
+//   LogoClass,
+//   LogoFunction,
+// };
