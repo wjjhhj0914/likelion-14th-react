@@ -18,17 +18,44 @@ export default function App(props) {
   // 삼항 연산자 식
   // 옵셔널 체이닝(?.), null 병합 연산자(??)
 
+  // 리스트 렌더링(Render Lists)
+  // 배열(데이터)
+
+  // 배열 순환문 (for, while, for...of 등) : 값이 없음 -> 함수 몸체에서만 사용
+  const array = Array.from({ length: 3 });
+  let renderElements = [];
+
+  for (let i = 0, l = array.length; i < l; i++) {
+    renderElements.push(
+      React.createElement(
+        Output,
+        {
+          key: i,
+          isAnimate: props.count < props.targetCount ? true : false,
+        },
+        props.count + i
+      )
+    );
+  }
+
+  // 배열의 forEach 메서드 (값이 없음) -> React에서는 안 씀 ❌
+  // 배열의 map 메서드 (값이 있음) ✅
+  // const renderElements = Array.from({ length: 3 }).map((_, index) =>
+  //   React.createElement(
+  //     Output,
+  //     {
+  //       key: index,
+  //       isAnimate: props.count < props.targetCount ? true : false,
+  //     },
+  //     props.count + index
+  //   )
+  // );
+
   return React.createElement(
     'div',
     { className: 'randomCountUpApp' },
     React.createElement(Logo),
-    React.createElement(
-      Output,
-      {
-        isAnimate: props.count < props.targetCount ? true : false,
-      },
-      props.count
-    ),
+    renderElements,
     React.createElement(Shortcut)
   );
 }
