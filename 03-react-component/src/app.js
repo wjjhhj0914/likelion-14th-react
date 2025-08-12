@@ -55,7 +55,21 @@ export default function App(props) {
     'div',
     { className: 'randomCountUpApp' },
     React.createElement(Logo),
-    renderElements,
+    // renderElements,
+    renderLists(3, props),
     React.createElement(Shortcut)
+  );
+}
+
+function renderLists(count = 3, props) {
+  return Array.from({ length: 3 }).map((_, index) =>
+    React.createElement(
+      Output,
+      {
+        key: index,
+        isAnimate: props.count < props.targetCount ? true : false,
+      },
+      props.count + index
+    )
   );
 }
