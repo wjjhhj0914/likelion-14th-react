@@ -1,14 +1,15 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import pluginReact from 'eslint-plugin-react';
-import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import pluginReactHooks from 'eslint-plugin-react-hooks';
-import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
-import { defineConfig, globalIgnores } from 'eslint/config';
+import js from '@eslint/js'
+import globals from 'globals'
+import pluginReact from 'eslint-plugin-react'
+import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import pluginReactHooks from 'eslint-plugin-react-hooks'
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y'
+import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   // 'dist' 폴더 전체를 ESLint 검사에서 제외 (빌드된 결과물 무시)
   globalIgnores(['dist']),
+
   {
     // 검사할 파일(src 폴더 내 js,jsx) 패턴 지정
     files: ['src/**/*.{js,jsx}'],
@@ -36,12 +37,12 @@ export default defineConfig([
 
   // React의 JSX 런타임(automatic) 설정
   pluginReact.configs.flat['jsx-runtime'],
-  // Prettier와 ESLint 충돌 방지 및 Prettier 포맷팅 규칙 적용
-  pluginPrettierRecommended,
   // JSX 접근성(Accessibility) 권장 규칙 적용
-  pluginJsxA11y.flatConfigs.recommended, // <img src="" />
+  pluginJsxA11y.flatConfigs.recommended,
   // React Hooks의 올바른 사용을 위한 권장 규칙 적용
   pluginReactHooks.configs['recommended-latest'],
+  // Prettier와 ESLint 충돌 방지 및 Prettier 포맷팅 규칙 적용
+  pluginPrettierRecommended,
 
   // 규칙 재정의
   {
@@ -75,4 +76,4 @@ export default defineConfig([
       'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
-]);
+])
