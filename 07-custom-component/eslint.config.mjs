@@ -1,10 +1,10 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import pluginReact from 'eslint-plugin-react'
-import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
-import pluginReactHooks from 'eslint-plugin-react-hooks'
-import pluginJsxA11y from 'eslint-plugin-jsx-a11y'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
+import pluginReact from 'eslint-plugin-react';
+import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
+import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
   // 'dist' 폴더 전체를 ESLint 검사에서 제외 (빌드된 결과물 무시)
@@ -73,7 +73,7 @@ export default defineConfig([
       // 콘솔 사용 제한
       // - 디버깅용 console.log 남용 방지
       // - warn, error만 허용하여 프로덕션 코드 품질 향상
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      // 'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
-])
+]);
