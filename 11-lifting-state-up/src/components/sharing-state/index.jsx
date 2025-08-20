@@ -13,7 +13,10 @@ export default function SharingState() {
   const handleChangeRandomIndex = () => setRandomIndex(calcRandomIndex())
 
   return (
-    <LearnSection title="다른 컴포넌트와 상태 공유하기">
+    <LearnSection
+      title="다른 컴포넌트와 상태 공유하기"
+      className="border bg-indigo-600"
+    >
       <EmotionFigure />
       <ChangeButton
         message={emotionInfo.message}

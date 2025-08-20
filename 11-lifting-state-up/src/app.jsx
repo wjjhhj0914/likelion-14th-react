@@ -1,5 +1,5 @@
-import SharingState from './components/sharing-state'
+import LiftingStateUpDemo from './components/lifting-state-up'
 
 export default function App() {
-  return <SharingState />
+  return <LiftingStateUpDemo />
 }

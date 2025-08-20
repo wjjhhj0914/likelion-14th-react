@@ -1,7 +1,11 @@
 {
   "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-}
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "immer": "^10.1.1",
+    "use-immer": "^0.11.0"
+  }
 }

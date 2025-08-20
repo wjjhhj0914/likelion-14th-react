@@ -11,10 +11,13 @@ export default function LearnSection({
   title,
   showTitle = false,
   children,
+  className = '',
   ...restProps
 }) {
+  const classNames = `learn-section ${className}`.trim()
+
   return (
-    <section className="learn-section" {...restProps}>
+    <section className={classNames} {...restProps}>
       <h1 className={showTitle ? null : 'sr-only'}>{title}</h1>
       {children}
     </section>
