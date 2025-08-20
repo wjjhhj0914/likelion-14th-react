@@ -1,0 +1,20 @@
+.update-input {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 1.5rem;
+    line-height: 2;
+    font-weight: 600;
+  }
+
+  input {
+    padding: 0.4em 0.6em;
+  }
+
+  & + output {
+    padding: 0.4em 0.2em;
+    font-size: 1.1rem;
+    color: rgb(32, 153, 169);
+  }
+}

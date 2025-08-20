@@ -2,11 +2,13 @@ import { LearnSection } from '@/components'
 import { AccordionListClass } from './components/accordion/accordion-list'
 import StatefulComponentClass from './components/stateful-component/class'
 import StatefulComponent from './components/stateful-component/functional'
+import UpdateInput from './components/update-input'
 
 export default function App() {
   return (
     <LearnSection title="상태 있는/없는 컴포넌트 구성">
-      <AccordionListClass />
+      <UpdateInput label="이름" value="야무" />
+      <UpdateInput label="직업" />
     </LearnSection>
   )
 }
