@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { LearnSection } from '@/components'
+import Parent from './components/virtual-dom/parent'
 
 const INITIAL_TODOS = [
   {
@@ -26,10 +27,11 @@ export default function App() {
         {count}
       </button>
       <TodoList todos={todos} setTodos={setTodos} />
+      <Parent />
     </LearnSection>
   )
 
-  console.log(reactElementTree)
+  // console.log(reactElementTree)
 
   return reactElementTree
 }
