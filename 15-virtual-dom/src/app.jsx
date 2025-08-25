@@ -16,9 +16,10 @@ export default function App() {
   const [count, setCount] = useState(9)
   const [todos, setTodos] = useState(INITIAL_TODOS)
 
-  // 컴포넌트 렌더링 -> 리액트 엘리먼트 트리
+  // 컴포넌트 렌더링 -> 리액트 엘리먼트 트리 생성
   const reactElementTree = (
     <LearnSection title="가상(Virtual) DOM 작동 방식 이해" className="p-10">
+      <Parent />
       <button
         type="button"
         onClick={() => setCount((c) => c + 2)}
