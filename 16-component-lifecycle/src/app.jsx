@@ -1,8 +1,51 @@
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { LearnSection } from '@/components'
 import LifeCycleDemo from './components/lifecycle/class'
+import Practice from './components/lifecycle/practice'
 
 export default function App() {
+  console.log('App 렌더링')
+  const [isShown, setIsShown] = useState(false)
+  const [email, setEmail] = useState('yamoo9@naver.com')
+  const id = useId()
+  const emailId = `${id}-email`
+
+  return (
+    <section className="border-2 bg-indigo-700 text-white p-5">
+      <h1 className="text-xl font-extrabold">App 컴포넌트</h1>
+      <div role="group" className="flex flex-col gap-2 my-3">
+        <label htmlFor={emailId} className="sr-only">
+          이메일
+        </label>
+        <input
+          type="email"
+          name="email"
+          id={emailId}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="input bg-white text-indigo-500"
+          placeholder="user@company.io"
+        />
+        <output className="p-2 px-5 border rounded w-max">{email}</output>
+      </div>
+      <p>
+        Practice 컴포넌트의 상태는 "{isShown ? '마운트' : '언마운트'}"입니다.
+      </p>
+      <label className="block my-2">
+        <input
+          type="checkbox"
+          checked={isShown}
+          onChange={() => setIsShown((is) => !is)}
+        />{' '}
+        Practice {!isShown ? '마운트' : '언마운트'}
+      </label>
+
+      {isShown && <Practice email={email} />}
+    </section>
+  )
+}
+
+function LifeCycleDemoApp() {
   console.log('App 렌더링')
 
   const [description, setDescription] = useState(
@@ -71,11 +114,10 @@ function LearnComponentLifecycle() {
   )
 }
 
-// 컴포넌트 라이프 사이클 단계
+// 컴포넌트 라이프사이클
 // 1. 생성(mount)
-// 2. 변경(update) x N (여러 번 발생할 수 있음)
+// 2. 변경(update) x N
 // 0. 소멸(unmount)
-// 어떤 특정한 객체가 시간의 흐름에 따라 변경하는 것을 라이프 사이클이라고 하는데, 그 단계는 생성, 변경, 소멸이라고 말할 수 있다.
 function Child({ headline, updateHeadline, inputValue, setInputValue }) {
   console.log('Child 렌더링')
 
