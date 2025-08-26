@@ -146,6 +146,6 @@ class PracticePart1 extends Component {
 
   // 리액트 고급 사용자를 위한 클래스 컴포넌트의 라이프사이클 메서드
   // - static getDerivedStateFromProps(props, state) {}
-  // - shouldComponentUpdate() {}
+  // - shouldComponentUpdate(nextProps, nextState) {}
   // - getSnapshotBeforeUpdate() {}
 }
