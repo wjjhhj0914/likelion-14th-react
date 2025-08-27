@@ -62,11 +62,13 @@ function Album({ id }) {
   const [data, setData] = useState(null)
 
   // 부수 효과 관리
-  // - mount
+  // - rendering [1]
+  // - mount [1]
   // - effect ([1]: ignore = false)
-  // - unmount
+  // - unmount [1]
+  // - rendering [2]
   // - cleanup ([1]: ignore = true)
-  // - remount
+  // - remount [2]
   // - response ([1]: ignore = true) - view update ignored
   // - effect ([2]: ignore = false)
   // - response ([2]: ignore = true) - view update
@@ -74,8 +76,9 @@ function Album({ id }) {
   useEffect(() => {
     // 이펙트 함수 내부에
     // 1회 요청 무시 여부를 식별하는 지역 변수 선언
-    let ignore = false
+    const ignore = false
 
+    // 상태 변경은 일괄 처리(업데이트)
     // 로딩 상태 전환
     setLoading(true)
     // 에러 상태 전환
@@ -104,6 +107,7 @@ function Album({ id }) {
         // 1회 요청 -> 2회 요청
         // 1회 데이터 상태 업데이트(무시) -> 2회 데이터 상태 업데이트(적용)
         if (!ignore) {
+          console.log('데이터 가져오기 -> data 상태 업데이트')
           setData(responseData)
         }
       })
@@ -119,9 +123,9 @@ function Album({ id }) {
       })
 
     // 클린업(정리) 함수를 사용해서
-    // 무시(ignore) 변수 값을 "1회 요청을 무시하라!"로 변경
     return () => {
-      ignore = true
+      // 무시(ignore) 변수 값을 "1회 요청을 무시하라!"로 변경
+      // ignore = true
     }
   }, [id])
 
