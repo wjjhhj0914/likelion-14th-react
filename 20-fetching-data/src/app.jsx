@@ -62,8 +62,20 @@ function Album({ id }) {
   const [data, setData] = useState(null)
 
   // 부수 효과 관리
+  // - mount
+  // - effect ([1]: ignore = false)
+  // - unmount
+  // - cleanup ([1]: ignore = true)
+  // - remount
+  // - response ([1]: ignore = true) - view update ignored
+  // - effect ([2]: ignore = false)
+  // - response ([2]: ignore = true) - view update
   // 상위 컴포넌트에서 전달된 id 속성이 변경되면 다시 이펙트 함수 실행
   useEffect(() => {
+    // 이펙트 함수 내부에
+    // 1회 요청 무시 여부를 식별하는 지역 변수 선언
+    let ignore = false
+
     // 로딩 상태 전환
     setLoading(true)
     // 에러 상태 전환
@@ -85,7 +97,15 @@ function Album({ id }) {
       // resolved 상태
       .then((responseData) => {
         // 데이터 업데이트
-        setData(responseData)
+        // 개발 중, 엄격 모드에서 이펙트가 2회 실행되다 보니
+        // 데이터 상태 업데이트도 2회 실행된다. (이 점을 문제 삼을 수 있다.)
+        // 그렇다면, 2회 네트워크 요청(데이터 가져오기)를 하더라도
+        // 실제 데이터 상태 업데이트 반영은 1회로 제한할 수 없을까? (라는 생각을 해볼 수 있다.)
+        // 1회 요청 -> 2회 요청
+        // 1회 데이터 상태 업데이트(무시) -> 2회 데이터 상태 업데이트(적용)
+        if (!ignore) {
+          setData(responseData)
+        }
       })
       // rejected 상태
       .catch((error) => {
@@ -97,6 +117,12 @@ function Album({ id }) {
         // 로딩 상태 전환
         setLoading(false)
       })
+
+    // 클린업(정리) 함수를 사용해서
+    // 무시(ignore) 변수 값을 "1회 요청을 무시하라!"로 변경
+    return () => {
+      ignore = true
+    }
   }, [id])
 
   // 상태 관리
