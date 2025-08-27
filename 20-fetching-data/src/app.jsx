@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { LearnSection } from '@/components'
 import { wait } from './utils'
 
-const API_URL = 'https://jsonplaceholder.typicode.com/albums/100'
+const API_URL = 'https://jsonplaceholder.typicode.com/albums/10'
 
 export default function App() {
   console.log('App 렌더링')
@@ -28,7 +28,7 @@ export default function App() {
     // 리액트 렌더링과 무관한 서버에서 데이터 가져오기 코드
     fetch(API_URL)
       .then(async (response) => {
-        await wait(2)
+        await wait(1)
 
         if (response.ok) return response.json()
 
@@ -61,42 +61,33 @@ export default function App() {
   // - 조건식 사용
   // - JSX 내부에 조건식 사용
 
-  // 렌더링할 엘리먼트에 대한 초기 설정
-  let renderElement = null
-
-  if (loading) {
-    renderElement = (
-      <p
-        role="status"
-        aria-live="polite"
-        className="text-indigo-300 font-semibold text-2xl"
-      >
-        로딩 중. . .
-      </p>
-    )
-  } else if (error) {
-    // error { name, message, stack }
-    renderElement = (
-      <p
-        role="alert"
-        aria-live="assertive"
-        className="text-red-600 font-semibold text-2xl"
-      >
-        오류 발생!! {error.message}
-      </p>
-    )
-  } else {
-    renderElement = (
-      <p className="text-indigo-600 font-semibold text-2xl">
-        {/* 혹시나 데이터가 undefined일 경우를 위한 옵셔널 체이닝 코드 */}
-        앨범 타이틀 : {data?.id} | {data?.title ?? 'Album Title'}
-      </p>
-    )
-  }
-
+  // JSX 내부에서 조건식 렌더링
   return (
     <LearnSection title="데이터 가져오기(fetching Data)" showTitle>
-      {renderElement}
+      {loading && (
+        <p
+          role="status"
+          aria-live="polite"
+          className="text-indigo-300 font-semibold text-2xl"
+        >
+          로딩 중. . .
+        </p>
+      )}
+      {error && (
+        <p
+          role="alert"
+          aria-live="assertive"
+          className="text-red-600 font-semibold text-2xl"
+        >
+          오류 발생!! {error.message}
+        </p>
+      )}
+      {data && (
+        <p className="text-indigo-600 font-semibold text-2xl">
+          {/* 혹시나 데이터가 undefined일 경우를 위한 옵셔널 체이닝 코드 */}
+          앨범 타이틀 : {data?.id} | {data?.title ?? 'Album Title'}
+        </p>
+      )}
       <div role="group" className="mt-5">
         <button
           type="button"
