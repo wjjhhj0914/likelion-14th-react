@@ -1,7 +1,20 @@
 import { useState } from 'react'
 import { useImmer } from 'use-immer'
+import AddTodoForm from './add-todo-form'
+import TodoList from './list'
+
+// ---------------------------------------------------------------------------------
+// ✅ 구현 요구 사항
+// ---------------------------------------------------------------------------------
+// - [x] 하나의 App 파일에서 아래 요구사항을 모두 구현해보세요.
+// - [x] 인풋에 할 일을 입력하고, 추가 버튼을 클릭하면 할 일이 목록에 추가되어야 합니다.
+// - [x] 각 할 일마다 체크박스(또는 레이블)을 클릭하면 해당 할 일이 완료된 것으로 표시되어야 합니다.
+// - [x] 각 할 일 옆에 삭제 버튼을 만들어, 삭제 버튼을 클릭하면 해당 할 일이 목록에서 삭제되어야 합니다.
+// - [x] 단일 파일이 아닌, 컴포넌트를 추출해 재사용 및 유지 관리하기 용이하도록 재구성합니다.
+// ---------------------------------------------------------------------------------
 
 export default function SimpleTodoList() {
+  // 새로운 할 일 상태 관리
   const [doit, setDoit] = useState('')
   const handleChange = (e) => setDoit(e.target.value)
 
@@ -15,16 +28,19 @@ export default function SimpleTodoList() {
     e.preventDefault()
 
     // 사용자 입력 값 검증
-    if (doit.trim().length === 0) return
+    if (doit.trim().length === 0) {
+      console.warn('새로운 할 일을 입력해야 합니다.')
+      return
+    }
 
-    // 새 할 일 정의
+    // 새 할일 정의
     const newTodo = {
       id: crypto.randomUUID(),
       done: false,
       doit,
     }
 
-    // 할 일 목록의 맨 앞에 새 할 일 추가
+    // 새 할일을 할 일 목록의 맨 앞에 추가
 
     // Immer 라이브러리 사용법
     // setTodoList((draft) => {
@@ -39,19 +55,16 @@ export default function SimpleTodoList() {
   }
 
   // 할 일 수정
-  const handleUpdateTodo = (id, e) => {
-    const { checked } = e.target
-    console.log(checked)
-
+  const handleUpdateTodo = (id) => () => {
     // 리액트의 방식 (불변성 유지)
-    // const nextTodoList = todoList.map((todo) => {
-    //   if (todo.id === id) return { ...todo, done: !todo.done }
-    //   return todo
-    // })
-    // setTodoList(nextTodoList)
-    // setTodoList(todoList.map...) 이렇게 바로 사용할 수도 있음!
+    // setTodoList(
+    //   todoList.map((todo) => {
+    //     if (todo.id === id) return { ...todo, done: !todo.done }
+    //     return todo
+    //   })
+    // )
 
-    // 자바스크립트의 방식 (변형 방식 적용)
+    // 자바스크립트의 방식 (draft를 사용한 변형)
     setTodoList((draft) => {
       const editTodo = draft.find((item) => item.id === id)
       if (editTodo) editTodo.done = !editTodo.done
@@ -60,87 +73,30 @@ export default function SimpleTodoList() {
   }
 
   // 할 일 삭제
-  const handleDeleteTodo = (id) => {
+  const handleDeleteTodo = (id) => () => {
     // 리액트의 방식 (불변성 유지)
-    setTodoList(todoList.filter((todo) => todo.id !== id))
+    // setTodoList(todoList.filter((todo) => todo.id !== id))
 
     // 자바스크립트의 방식 (draft를 사용한 변형)
     // 배열의 특정 인덱스 순서의 원소를 삭제하려면?
+    // 어떤 메서드를 사용하면 좋을까요? findIndex, splice
     setTodoList((draft) => {
       const deleteIndex = draft.findIndex((item) => item.id === id)
       if (deleteIndex > -1) draft.splice(deleteIndex, 1)
     })
   }
 
-  // 커링 함수
-  const curring = (a) => (b) => a + b
-
-  // 이해를 위해 함수 선언 형태로 작성
-  const curring2 = function (a) {
-    const inner = function (b) {
-      return a + b
-    }
-    return inner
-  }
-
-  const inner = curring2(180)
-  console.log(inner(2)) // 182
-
-  // 파생된 상태 설정
-  // 할 일 목록을 역순으로 정렬
-  const reversedTodoList = todoList.toReversed()
-
   return (
     <div className="container">
-      <section>
-        <h2 className="sr-only">할 일 추가</h2>
-        <form className="new-todo-form" onSubmit={handleAddTodo}>
-          <div role="group" className="form-control grow">
-            <label htmlFor="todo-input">새로운 할 일</label>
-            <input
-              type="text"
-              id="todo-input"
-              value={doit}
-              onChange={handleChange}
-            />
-          </div>
-          <button className="button" type="submit" disabled={!doit.trim()}>
-            추가
-          </button>
-        </form>
-      </section>
-      <section>
-        <h2 className="sr-only">할 일 목록</h2>
-        <ul className="todo-list">
-          {reversedTodoList.map(({ id, doit, done }) => {
-            const checkboxId = `todo-${id}`
-            return (
-              <li key={id} className="list-item">
-                <div className="form-control row">
-                  <input
-                    id={checkboxId}
-                    type="checkbox"
-                    checked={done}
-                    onChange={(e) => handleUpdateTodo(id, e)}
-                  />
-                  <label htmlFor={checkboxId} className="list-item-label">
-                    {doit}
-                  </label>
-                </div>
-                <button
-                  type="button"
-                  // onClick={handleDeleteTodo.bind(null, id)}
-                  onClick={() => handleDeleteTodo(id)}
-                  // onClick={handleDeleteTodo(id)}
-                  // 위에다가 () => {} -> 클로저(Closure) 방식
-                >
-                  삭제
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </section>
+      <AddTodoForm
+        onAdd={handleAddTodo}
+        inputProps={{ value: doit, onChange: handleChange }}
+      />
+      <TodoList
+        items={todoList}
+        onUpdate={handleUpdateTodo}
+        onDelete={handleDeleteTodo}
+      />
     </div>
   )
 }
