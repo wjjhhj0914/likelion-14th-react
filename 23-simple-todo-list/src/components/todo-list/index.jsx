@@ -72,6 +72,20 @@ export default function SimpleTodoList() {
     })
   }
 
+  // 커링 함수
+  const curring = (a) => (b) => a + b
+
+  // 이해를 위해 함수 선언 형태로 작성
+  const curring2 = function (a) {
+    const inner = function (b) {
+      return a + b
+    }
+    return inner
+  }
+
+  const inner = curring2(180)
+  console.log(inner(2)) // 182
+
   // 파생된 상태 설정
   // 할 일 목록을 역순으로 정렬
   const reversedTodoList = todoList.toReversed()
@@ -113,7 +127,13 @@ export default function SimpleTodoList() {
                     {doit}
                   </label>
                 </div>
-                <button type="button" onClick={handleDeleteTodo.bind(null, id)}>
+                <button
+                  type="button"
+                  // onClick={handleDeleteTodo.bind(null, id)}
+                  onClick={() => handleDeleteTodo(id)}
+                  // onClick={handleDeleteTodo(id)}
+                  // 위에다가 () => {} -> 클로저(Closure) 방식
+                >
                   삭제
                 </button>
               </li>
